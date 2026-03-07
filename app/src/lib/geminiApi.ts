@@ -2,10 +2,10 @@ import { GoogleGenAI } from '@google/genai';
 import { PRIVATE_GEMINI_API_KEY } from '$env/static/private';
 
 
-const gemini = new GoogleGenAI({apiKey: PRIVATE_GEMINI_API_KEY});
+const geminiClient = new GoogleGenAI({apiKey: PRIVATE_GEMINI_API_KEY});
 
 const main = async () => {
-    const response = await gemini.models.generateContent({
+    const response = await geminiClient.models.generateContent({
         model: "gemini-3-flash-preview",
         contents:"Explain how AI works in a few words."
     });
@@ -20,10 +20,10 @@ const cleanResponse = async (response: string|undefined) => {
 };
 
 const queryWords = async (language: string, word: string) => {
-    const response = await gemini.models.generateContent({
+    const response = await geminiClient.models.generateContent({
         model: "gemini-3-flash-preview",
-        contents: `Generate nothing but a json of all ${language} translations of the 
-                    word \"${word}\" in the format: { translations: {word1, word2, ..}} exclude newline characters.`
+        contents: `Generate nothing but a json of all english translations of the 
+                    ${language} word \"${word}\" in the format: { translations: {word1, word2, ..}} exclude newline characters.`
     });
 
     const data = cleanResponse(response.text);
@@ -32,5 +32,5 @@ const queryWords = async (language: string, word: string) => {
     return data;
 };
 
-const geminiApi = { main, queryWords };
-export { geminiApi };
+const gemini = { main, queryWords };
+export { gemini };
