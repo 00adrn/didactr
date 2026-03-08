@@ -1,12 +1,17 @@
 <script>
   let { option, selected, handleClick } = $props();
+  let isSelected = $derived(option === selected);
 </script>
 
 <button
-  class:bg-emerald-900={option != selected}
-  class:bg-emerald-700={option == selected}
-  class="rounded-full min-w-32 text-3xl pt-2 pb-2 pr-4 pl-4 text-stone-50 hover:bg-emerald-800"
-  onclick={() => handleClick(option)}
+  class="rounded-lg min-w-24 text-xl py-2 px-4 font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-stone-900/50"
+  class:bg-emerald-600={isSelected}
+  class:text-white={isSelected}
+  class:shadow-lg={isSelected}
+  class:bg-stone-700={!isSelected}
+  class:text-stone-300={!isSelected}
+  class:hover:bg-stone-600={!isSelected}
+  on:click={() => handleClick(option)}
 >
   {option}
 </button>

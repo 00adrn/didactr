@@ -7,9 +7,11 @@
 </script>
 
 <!-- <svelte:head><link rel="icon" href={favicon} /></svelte:head>	 -->
-<div class="h-screen w-screen bg-stone-800 flex flex-col items-center box-border overflow-hidden">
+<div
+  class="h-screen w-screen bg-gradient-to-br from-stone-900 to-stone-800 flex flex-col items-center box-border overflow-auto"
+>
   <Navbar />
-  <div class="w-full h-full flex justify-center mt-16">
+  <div class="w-full h-full flex justify-center mt-16 p-4 sm:p-8">
     {@render children()}
   </div>
 </div>

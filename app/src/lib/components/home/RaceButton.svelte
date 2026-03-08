@@ -1,12 +1,12 @@
 <script>
-    import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
-    const { text } = $props();
+  const { text } = $props();
 </script>
 
-<div class="w-full flex flex-row items-center p-4 bg-transparent gap-4 border-box">
-    <button class="w-sm pr-4 pl-4 pt-2 pb-2 bg-emerald-700 flex justify-center items-center hover:bg-emerald-600 transition-all rounded-full text-3xl font-semibold" 
-            onclick={() => goto(`/race/${text.toLowerCase()}`)}>
-                {text}
-    </button>
-</div>
+<button
+  class="w-64 font-semibold text-stone-50 text-2xl bg-emerald-600 px-8 py-4 rounded-full hover:bg-emerald-500 transition-all duration-300 shadow-lg hover:shadow-emerald-500/30"
+  on:click={() => goto(`/race/${text.toLowerCase()}`)}
+>
+  {text}
+</button>
