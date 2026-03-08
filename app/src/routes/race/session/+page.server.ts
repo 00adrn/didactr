@@ -33,8 +33,8 @@ export const load: ServerLoad = async ({ url, fetch }) => {
 
         console.log(respData);
 
-        return {translationData: respData, room};
+        return {translationData: respData, room, isHost: true};
     }
 
-    return { translationData: data.word_data, room}
+    return { translationData: data.word_data, room, isHost: false }
 }

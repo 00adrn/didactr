@@ -10,6 +10,7 @@
     let selectedLang = $state("");
     let selectedCount = $state(0);
     let playerCap = $state(0);
+    let loading = $state(false);
 
     const handleLanguageSelect = (/** @type {string} */lang) => {
         selectedLang = lang;
@@ -24,9 +25,10 @@
     };
 
     const createSession = () => {
-        if (selectedLang === "" || selectedCount === 0 || playerCap === 0)
+        if (selectedLang === "" || selectedCount === 0 || playerCap === 0 || loading)
             return;
         const roomId = genRoomId();
+        loading = true;
 
         goto(`/race/session?lang=${selectedLang.toLowerCase()}&count=${selectedCount}&room=${roomId}`);
     };
@@ -67,7 +69,7 @@
 
     <button class="flex justify-center items-center w-64 font-semibold text-stone-50 text-4xl bg-emerald-600 pl-8 pr-8 pt-4 pb-4 rounded-full hover:bg-emerald-500"
         onclick={createSession}>
-        Host
+        {loading ? "Creating..." : "Create"}
     </button>
 </div>
 ;

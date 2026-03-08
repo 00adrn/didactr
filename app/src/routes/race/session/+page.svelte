@@ -11,6 +11,7 @@
     let count = $state(0);
     let input = $state("");
     let wrong = $state(false);
+    let started = $state(false);
     let inputField: HTMLInputElement | undefined = $state();
 
 
@@ -21,7 +22,7 @@
     const onSubmit = (event: Event) => {
         event.preventDefault();
         
-        if (data.translationData[count - 1].translations.includes(input)) {
+        if (data.translationData[count - 1].translations.includes(input.toLowerCase())) {
             if (count === data.translationData.length) {
                 count++;
                 currentWord = "Complete!";
@@ -44,6 +45,18 @@
         if (!raceChannel) return;
         
         await raceChannel.track({ userId: myUserId, progress: currentProgress });
+    };
+
+    const startGame = async () => {
+        started = true;
+
+        if (raceChannel) {
+            await raceChannel.send({
+                type: 'broadcast',
+                event: 'start_game',
+                payload: { message: 'Go!' }
+            });
+        }
     };
 
     onMount(() => {
@@ -71,9 +84,11 @@
                 
                 opponents = currentOpponents;
             })
+            .on('broadcast', { event: 'start_game' }, (payload: any) => {
+                started = true;
+            })
             .subscribe(async (status: string) => {
                 if (status === 'SUBSCRIBED') {
-                    console.log('Successfully connected to the race!');
                     await raceChannel.track({ userId: myUserId, progress: count });
                 }
             });
@@ -88,6 +103,7 @@
 
 <div class="w-300 flex item-center justify-center  flex-col gap-12">
         {#if data?.translationData}
+        {#if started}
         <div class="flex flex-row gap-24 justify-center items-center">
             <div class="flex item-center justify-center flex-col gap-12">
                 <p class="text-2xl text-stone-50">Race Standings</p>
@@ -123,6 +139,25 @@
                 </form>
             </div>
         </div>
+        {:else}
+        <div class="flex flex-col items-center justify-center gap-12 h-content bg-stone-600 rounded-xl p-8 ">
+            <div class="flex flex-col items-center gap-12 bg-stone-700 rounded-xl w-xl h-full p-4">
+                <p class="text-stone-200 font-semibold text-3xl">Players in room</p>
+                <p class="text-stone-50 font-semibold text-3xl">You ({myUserId})</p>
+                {#each Object.entries(opponents) as [id, progress]}
+                <p class="text-stone-50 font-semibold text-2xl">{id}</p>
+                {/each}
+            </div>
+            {#if data.isHost}
+            <div class="flex justify-center items-center">
+                <button onclick={startGame} 
+                        class="w-xs pr-4 pl-4 pt-2 pb-2 bg-emerald-700 flex justify-center items-center hover:bg-emerald-600 transition-all rounded-full text-3xl font-semibold">
+                        Start
+                </button>
+            </div>
+            {/if}
+        </div>
+        {/if}
         {/if}
 </div>
 

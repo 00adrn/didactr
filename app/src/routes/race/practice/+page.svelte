@@ -7,6 +7,7 @@
 
     let selectedLang = $state("");
     let selectedCount = $state(0);
+    let loading = $state(false);
 
     const handleLanguageSelect = ( /** @type {string} */lang) => {
         selectedLang = lang;
@@ -17,9 +18,11 @@
     };
 
     const startPractice = () => {
-        if (selectedLang === "" || selectedCount === 0)
+        if (selectedLang === "" || selectedCount === 0 || loading)
             return;
-        console.log("practice starting...");
+
+        loading = true;
+
         goto(`/race/practice/session?lang=${selectedLang.toLowerCase()}&count=${selectedCount}`);
     };
 </script>
@@ -48,7 +51,7 @@
     </div>
     <button class="flex justify-center items-center w-64 font-semibold text-stone-50 text-4xl bg-emerald-600 pl-8 pr-8 pt-4 pb-4 rounded-full hover:bg-emerald-500"
         onclick={startPractice}>
-        Begin
+        {loading ? "Starting..." : "Start"}
     </button>
 </div>
 ;

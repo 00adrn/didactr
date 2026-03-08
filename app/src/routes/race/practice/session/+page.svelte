@@ -12,7 +12,7 @@
     const onSubmit = (event: Event) => {
         console.log("Submitting...")
         event.preventDefault();
-        if (data.translationData[count - 1].translations.includes(input)) {
+        if (data.translationData[count - 1].translations.includes(input.toLowerCase())) {
             console.log("Translation achieved!");
 
             if (count === data.translationData.length) {
