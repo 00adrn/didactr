@@ -1,7 +1,7 @@
 <script>
     import NavButton from "$lib/components/NavButton.svelte"
 
-    const buttons = ["Home", "Race", "Profile"]
+    const buttons = ["Home", "Profile"]
 </script>
 
 <div class="relative w-screen flex justify-center items-center mt-2">

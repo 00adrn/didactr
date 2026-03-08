@@ -20,7 +20,6 @@ const insertTranslationData = async (lang: string, word: string, translations: s
     const collectionExists = await info.findOne({lang: lang});
 
     if (!collectionExists) {
-        console.log("Collection for " + lang + " doesn't exist, creating....")
         await client.db("didactr").createCollection(lang);
         await info.insertOne({ lang: lang});
     }

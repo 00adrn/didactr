@@ -342,3 +342,19 @@ export const generateRandomWords = (count: number, lang: string) => {
 
     return words;
 }
+
+export const getMockData = () => {
+  return ["domingo", "musica", "mundo", "zapato", "gracias", "grande", "agua", "día", "amor", "casa"]
+}
+
+export const genRoomId = () => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let res = '';
+    
+    for (let i = 0; i < 6; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        res += characters.charAt(randomIndex);
+    }
+    
+    return res;
+}
