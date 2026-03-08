@@ -135,12 +135,12 @@
                 Word #{count}
               </p>
             {/if}
-            <p class="text-stone-50 font-bold text-7xl md:text-8xl break-words">
+            <p class="text-stone-50 font-bold text-7xl md:text-8xl wrap-break-words">
               {currentWord}
             </p>
           </div>
           <form
-            on:submit={onSubmit}
+            onsubmit={onSubmit}
             class="flex flex-col gap-6 items-center justify-center w-full"
           >
             {#if currentWord !== "Complete!"}
@@ -174,7 +174,7 @@
         class="w-full max-w-2xl mx-auto bg-stone-800/70 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-stone-700 flex flex-col items-center gap-8"
       >
         <h1 class="text-4xl text-stone-100 font-bold tracking-tight">
-          Waiting Lobby
+          Lobby | {data.room}
         </h1>
         <div
           class="w-full bg-stone-900/50 rounded-xl p-6 flex flex-col items-center gap-4"
@@ -196,7 +196,7 @@
         {#if data.isHost}
           <div class="flex justify-center items-center">
             <button
-              on:click={startGame}
+              onclick={startGame}
               class="w-64 font-semibold text-stone-50 text-2xl bg-emerald-600 px-8 py-4 rounded-full hover:bg-emerald-500 transition-all duration-300 shadow-lg hover:shadow-emerald-500/30"
             >
               Start
