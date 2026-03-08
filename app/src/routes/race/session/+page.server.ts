@@ -14,8 +14,8 @@ export const load: ServerLoad = async ({ url, fetch }) => {
 
         console.log("Initializing practice with lang=" + lang + " and count=" + count);
         
-        // const wordsToTranslate = generateRandomWords(Number(count), lang!);
-        const wordsToTranslate = getMockData();
+        const wordsToTranslate = generateRandomWords(Number(count), lang!);
+        // const wordsToTranslate = getMockData();
 
         const resp = await fetch("/api/get-words", {
             method: "POST",
