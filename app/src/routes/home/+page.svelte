@@ -20,12 +20,8 @@
     <p class="text-white text-5xl mb-4">Join, create, or practice</p>
     <div class="flex flex-row gap-2">
         <JoinField bind:code={roomCode} {onSubmit}/>
-        <div class="border-r border-stone-50 h-full"></div>
         {#each raceOptions as option, index}
             <PracticeCard text={option} />
-            {#if index != raceOptions.length - 1}
-                <div class="border-r border-stone-50 h-full"></div>
-            {/if}
         {/each}
     </div>
 </div>
