@@ -19,11 +19,15 @@ const cleanResponse = async (response: string|undefined) => {
     return data;
 };
 
-const queryWords = async (language: string, word: string) => {
+const queryWords = async (language: string, words: string[]) => {
+    let contentString = `Generate nothing but a json of all english translations of the ${language} words `;
+    for (let word of words) {
+        contentString += '"' + word + '" ';
+    }
+    contentString += "in the format: [{word: word1, translations: [translation1, translation2...]}, { word: word2, translations: ...} ] exclude newline characters and make everything lowercase."
     const response = await geminiClient.models.generateContent({
         model: "gemini-3-flash-preview",
-        contents: `Generate nothing but a json of all english translations of the 
-                    ${language} word \"${word}\" in the format: { translations: {word1, word2, ..}} exclude newline characters.`
+        contents: contentString
     });
 
     const data = cleanResponse(response.text);

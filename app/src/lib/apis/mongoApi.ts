@@ -3,6 +3,8 @@ import { PRIVATE_MONGO_URI } from "$env/static/private";
 
 const uri = PRIVATE_MONGO_URI;
 
+let currentLangs = [];
+
 const client = new MongoClient(uri, {
     serverApi: {
         version: ServerApiVersion.v1,
@@ -11,13 +13,22 @@ const client = new MongoClient(uri, {
     }
 });
 
-
 const insertTranslationData = async (lang: string, word: string, translations: string[]) => {
     await client.connect();
+
+    const info = client.db("didactr").collection("info");
+    const collectionExists = await info.findOne({lang: lang});
+
+    if (!collectionExists) {
+        console.log("Collection for " + lang + " doesn't exist, creating....")
+        await client.db("didactr").createCollection(lang);
+        await info.insertOne({ lang: lang});
+    }
+
     const db = client.db("didactr").collection(lang);
 
     const data = { word: word, translations};
-    const result = await db.insertOne(data);
+    await db.insertOne(data);
 
     console.log(`Successfully inserted translation data for "${word}" in ${lang}`);
     return 1;
@@ -27,11 +38,10 @@ const searchForTranslationData = async (lang: string, word: string) => {
     await client.connect();
     const db = client.db("didactr").collection(lang);
 
-
     const query = { word: word}
     const findResult = await db.findOne(query);
 
-    if (!findResult) {
+    if (!findResult || findResult.translations.length === 0) {
         console.log("No translation data found.")
         return -1;
     }
@@ -40,6 +50,7 @@ const searchForTranslationData = async (lang: string, word: string) => {
 
     return findResult.translations;
 };
+
 
 const mongo = {searchForTranslationData, insertTranslationData };
 
